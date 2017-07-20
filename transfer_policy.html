@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>保單轉手操作</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/vue"></script>
+
+<style>
+.pt_old {
+	background-color: #a1f784;
+}
+
+.pt_new {
+	background-color: #84f7f7;
+}
+</style>
+
+</head>
+
+<body>
+	<div id="app">
+		<div class="container">
+
+			<div class="jumbotron">
+				<h1>保單轉手操作說明V1.0</h1>
+				<p>支援Chrome或IE9.0以上</p>
+				<p>1. 下列操作皆假設為同一天的操作</p>
+				<p>2. 重新整理即可回復預設狀態</p>
+				<p>3. 一次的轉手可以視同一次保單受理轉手、保單非受理轉手或是一次上傳</p>
+				<p>4. 比照受理、非受理或上傳不支援三人件，但為了方便理解還是有三個洞</p>
+				<p>5. 點選轉手即可開啟或關閉轉手操作區塊</p>
+			</div>
+			<div class="row">
+				<div class="page-header">
+					<h3>現行保單狀態</h3>
+					<p>可直接修改保單狀態預設內容</p>
+				</div>
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th></th>
+							<th>保單號碼</th>
+							<th>領佣1</th>
+							<th>領佣2</th>
+							<th>領佣3</th>
+							<th>服務1</th>
+							<th>服務2</th>
+							<th>服務3</th>
+						</tr>
+						<tr>
+							<td>
+							<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#transferPolicy">轉手</button>
+							<button type="button" class="btn btn-primary" @click="cancelTrans">取消轉手</button></td>
+							<td>{{policy.policyCode}}</td>
+							<td><input v-model="policy.comm[0]" size="10"></td>
+							<td><input v-model="policy.comm[1]" size="10"></td>
+							<td><input v-model="policy.comm[2]" size="10"></td>
+							<td><input v-model="policy.serv[0]" size="10"></td>
+							<td><input v-model="policy.serv[1]" size="10"></td>
+							<td><input v-model="policy.serv[2]" size="10"></td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</div>
+
+			<div class="row collapse" id="transferPolicy">
+				<div class="panel panel-default ">
+					<div class="panel-body">
+						<div class="page-header">
+							<h3>轉手操作</h3>
+							<p>可以視同一次保單受理轉手、保單非受理轉手或是一次上傳</p>
+							<h3 class="text-danger">{{message}}</h3>
+						</div>
+						<table class="table table-bordered table-striped">
+							<tbody>
+								<tr>
+									<th width='20%'>保單號碼</th>
+									<th width='20%'>原業務員</th>
+									<th width='20%'>新領佣</th>
+									<th width='20%'>新服務</th>
+									<th width='20%'></th>
+								</tr>
+								<tr>
+									<td>{{policy.policyCode}}</td>
+									<td><input type="text" size="10" v-model="trans.ori"
+										required></td>
+									<td><input type="text" size="10" v-model="trans.comm"></td>
+									<td><input type="text" size="10" v-model="trans.serv"></td>
+									<td><button type="button" class="btn btn-primary"
+											@click="transPolicy">轉手</button></td>
+								</tr>
+							</tbody>
+						</table>
+		
+		
+						<div class="page-header">
+							<h3>轉手操作紀錄</h3>
+						</div>
+						
+						<table class="table table-bordered table-striped">
+							<tbody>
+								<tr>
+									<th width='20%'>保單號碼</th>
+									<th width='20%'>原業務員</th>
+									<th width='20%'>新領佣</th>
+									<th width='20%'>新服務</th>
+									<th width='20%'></th>
+								</tr>
+								<tr v-for="(data, index) in transHistory">
+									<td>{{data.policyCode}}</td>
+									<td>{{data.ori}}</td>
+									<td>{{data.comm}}</td>
+									<td>{{data.serv}}</td>
+									<td>{{index+1}}</td>
+								</tr>
+							</tbody>
+						</table>		
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="page-header">
+					<h3>保單轉手歷史紀錄</h3>
+				</div>
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+
+							<th>保單號碼</th>
+							<th>狀態</th>
+							<th class="pt_old">原領佣1</th>
+							<th class="pt_old">原領佣2</th>
+							<th class="pt_old">原領佣3</th>
+							<th class="pt_old">原服務1</th>
+							<th class="pt_old">原服務2</th>
+							<th class="pt_old">原服務3</th>
+							<th class="pt_new">新領佣1</th>
+							<th class="pt_new">新領佣2</th>
+							<th class="pt_new">新領佣3</th>
+							<th class="pt_new">新服務1</th>
+							<th class="pt_new">新服務2</th>
+							<th class="pt_new">新服務3</th>
+						</tr>
+						<tr v-for="data in history">
+							<td>{{data.policyCode}}</td>
+							<td v-if="data.status == 0">已取消</td>
+							<td v-else></td>
+							<td>{{data.old.comm[0]}}</td>
+							<td>{{data.old.comm[1]}}</td>
+							<td>{{data.old.comm[2]}}</td>
+							<td>{{data.old.serv[0]}}</td>
+							<td>{{data.old.serv[1]}}</td>
+							<td>{{data.old.serv[2]}}</td>
+							<td>{{data.new.comm[0]}}</td>
+							<td>{{data.new.comm[1]}}</td>
+							<td>{{data.new.comm[2]}}</td>
+							<td>{{data.new.serv[0]}}</td>
+							<td>{{data.new.serv[1]}}</td>
+							<td>{{data.new.serv[2]}}</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+			<div class="row">
+				<div class="page-header">
+					<h3>保單轉手取消轉手歷史紀錄</h3>
+				</div>
+				<table class="table table-bordered table-striped">
+					<tbody>
+						<tr>
+							<th>保單號碼</th>
+							<th>狀態</th>
+							<th class="pt_old">原領佣1</th>
+							<th class="pt_old">原領佣2</th>
+							<th class="pt_old">原領佣3</th>
+							<th class="pt_old">原服務1</th>
+							<th class="pt_old">原服務2</th>
+							<th class="pt_old">原服務3</th>
+							<th class="pt_new">新領佣1</th>
+							<th class="pt_new">新領佣2</th>
+							<th class="pt_new">新領佣3</th>
+							<th class="pt_new">新服務1</th>
+							<th class="pt_new">新服務2</th>
+							<th class="pt_new">新服務3</th>
+						</tr>
+						<tr v-for="data in cancelHistory">
+							<td>{{data.policyCode}}</td>
+							<td>已取消</td>
+							<td>{{data.old.comm[0]}}</td>
+							<td>{{data.old.comm[1]}}</td>
+							<td>{{data.old.comm[2]}}</td>
+							<td>{{data.old.serv[0]}}</td>
+							<td>{{data.old.serv[1]}}</td>
+							<td>{{data.old.serv[2]}}</td>
+							<td>{{data.new.comm[0]}}</td>
+							<td>{{data.new.comm[1]}}</td>
+							<td>{{data.new.comm[2]}}</td>
+							<td>{{data.new.serv[0]}}</td>
+							<td>{{data.new.serv[1]}}</td>
+							<td>{{data.new.serv[2]}}</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+
+		</div>
+	</div>
+</body>
+
+<script>
+
+//{status:0, policyCode:'0000003470', old : {comm:['X蘭芳', 'K靜蓉',''], serv:['X蘭芳', 'K靜蓉', '']}, 'new':{comm:['X蘭芳', 'K靜蓉',''], serv:['X蘭芳', 'K靜蓉', '']} }
+
+	var app = new Vue({
+	  el: '#app',
+	  data: {
+		message:'',
+		policy: {policyCode:'0000003470', comm:['X蘭芳', 'K靜蓉',''], serv:['X蘭芳', 'K靜蓉', '']},
+		tmp_policy:{},
+		trans: {ori:'', comm:'', serv:''},
+		transHistory:[],
+		history:[],
+		cancelHistory:[]
+	  }, 
+	  methods: {
+		transPolicy : function (event) {
+			if (this.trans.ori == '') {
+				this.message = "原業務員不可為空";
+				return false;
+			}
+			if (this.trans.comm == '' && this.trans.serv == '') {
+				this.message = '轉出不可都為空';
+				return false;
+			}
+			if (this.policy.comm[2] != '' || this.policy.serv[2] != '') {
+				this.message = "不支援三人合作件";
+				return false;
+			}
+			if (this.trans.comm != '') {
+				
+				if (this.trans.comm == this.trans.ori) {
+					this.message = '領佣轉出與原業務員相同';
+					return false;
+				}
+				
+				if (this.policy.comm.indexOf(this.trans.ori) < 0) {
+					this.message = '原業務員不存在領佣';
+					return false;	
+				}
+			}
+			if (this.trans.serv != '') {
+				
+				if (this.trans.serv == this.trans.ori) {
+					this.message = '領佣轉出與原業務員相同';
+					return false;
+				}
+				
+				if (this.policy.serv.indexOf(this.trans.ori) < 0) {
+					this.message = '原業務員不存在服務';
+					return false;	
+				}
+			}
+			
+			for (var i = 0 ; i < this.history.length ; i++) {
+				
+				if (this.history[i].status == 0) {
+					continue;
+				}
+				var element = this.history[i];
+				if (element.old.comm.indexOf(this.trans.ori) >= 0 || element.old.serv.indexOf(this.trans.ori) >= 0) {
+					this.message = this.trans.ori + "今日已轉手";
+					return false;
+				}
+				if (element.new.comm.indexOf(this.trans.ori) >= 0 || element.new.serv.indexOf(this.trans.ori) >= 0) {
+					this.message = this.trans.ori + "今日已轉手";
+					return false;
+				}
+			}
+			
+			
+			
+			//validate done
+			
+			
+			var history = jQuery.extend(true, {}, this.trans);
+			history.policyCode = this.policy.policyCode;
+			this.transHistory.push(history);
+			
+			var old = {comm:['', '',''], serv:['', '', '']};
+			var new_ = {comm:['', '',''], serv:['', '', '']};
+			
+			if (this.trans.comm != '') {
+				var idx = this.policy.comm.indexOf(this.trans.ori);
+				
+				if (idx >= 0) {
+					var mergeIdx = this.policy.comm.indexOf(this.trans.comm);
+					if (mergeIdx >= 0) { //merge
+						old.comm[idx] = this.policy.comm[idx];
+						old.comm[mergeIdx] = this.policy.comm[mergeIdx];
+						
+						var minIdx = Math.min(idx, mergeIdx);
+						
+						new_.comm[minIdx] = this.trans.comm;
+						
+						this.policy.comm[minIdx] = this.trans.comm;
+						this.policy.comm[Math.max(idx, mergeIdx)] = '';
+					} else {
+						old.comm[idx] = this.policy.comm[idx];
+						new_.comm[idx] = this.trans.comm;
+						
+						this.policy.comm[idx] = this.trans.comm;	
+					}
+				}
+			}
+			if (this.trans.serv != '') {
+				var idx = this.policy.serv.indexOf(this.trans.ori);
+				
+				if (idx >= 0) {
+					var mergeIdx = this.policy.serv.indexOf(this.trans.serv);
+					if (mergeIdx >= 0) { //merge
+						old.serv[idx] = this.policy.serv[idx];
+						old.serv[mergeIdx] = this.policy.serv[mergeIdx];
+						
+						var minIdx = Math.min(idx, mergeIdx);
+						
+						new_.serv[minIdx] = this.trans.serv;
+						
+						this.policy.serv[minIdx] = this.trans.serv;
+						this.policy.serv[Math.max(idx, mergeIdx)] = '';
+					} else {
+						old.serv[idx] = this.policy.serv[idx];
+						new_.serv[idx] = this.trans.serv;
+						
+						this.policy.serv[idx] = this.trans.serv;						
+					}
+				} 
+			}
+
+			
+			
+			var newHistory = {
+					status:1, 
+					policyCode : this.policy.policyCode,
+					'old' : old, 
+					'new': new_
+			}
+			
+			this.history.push(newHistory);
+			
+			this.message = '';
+			$('#myModal').modal('toggle');
+		},
+		cancelTrans : function(event) {
+			if (this.history.length == 0 || 
+					this.history[0].status == 0) {
+				alert('尚未有轉手紀錄');
+				return false;
+			}
+			
+			var cancelTarget;
+			for (var i = this.history.length - 1 ; i >= 0 ; i--) {
+				if (this.history[i].status == 1) {
+					cancelTarget = this.history[i];
+					break;
+				}
+			}
+			
+			cancelTarget.status = 0;
+			
+			var old = cancelTarget.old;
+			
+			var vm = this;
+			
+			old.comm.forEach(function(element, idx) {
+				if (element != '') {
+					vm.policy.comm[idx] = element;
+				}
+			});
+			old.serv.forEach(function(element, idx) {
+				if (element != '') {
+					vm.policy.serv[idx] = element;
+				}
+			});
+			
+			this.transHistory.push({policyCode: this.policy.policyCode, ori:'取消轉手', comm:'', service:''});
+			
+			this.cancelHistory.push(jQuery.extend(true, {}, cancelTarget));
+		}
+		  
+	  }
+	  
+	})
+
+	</script>
+</html>
+
