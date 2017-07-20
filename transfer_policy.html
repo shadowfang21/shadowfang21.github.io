@@ -29,12 +29,17 @@
 <script src="https://unpkg.com/vue"></script>
 
 <style>
-.pt_old {
+
+.table tbody tr th {
+	background-color: #d9f5ff;
+}
+
+.table tbody tr th.pt_old {
 	background-color: #a1f784;
 }
 
-.pt_new {
-	background-color: #84f7f7;
+.table tbody tr th.pt_new {
+	background-color: #f7d384;
 }
 </style>
 
@@ -50,7 +55,7 @@
 				<p>1. 下列操作皆假設為同一天的操作</p>
 				<p>2. 重新整理即可回復預設狀態</p>
 				<p>3. 一次的轉手可以視同一次保單受理轉手、保單非受理轉手或是一次上傳</p>
-				<p>4. 比照受理、非受理或上傳不支援三人件，但為了方便理解還是有三個洞</p>
+				<p>4. 比照受理、非受理或上傳不支援三人件，但為了方便理解還是有三個欄位</p>
 				<p>5. 點選轉手即可開啟或關閉轉手操作區塊</p>
 			</div>
 			<div class="row">
@@ -69,6 +74,7 @@
 							<th>服務1</th>
 							<th>服務2</th>
 							<th>服務3</th>
+							<th>轉手次數</th>
 						</tr>
 						<tr>
 							<td>
@@ -81,6 +87,7 @@
 							<td><input v-model="policy.serv[0]" size="10"></td>
 							<td><input v-model="policy.serv[1]" size="10"></td>
 							<td><input v-model="policy.serv[2]" size="10"></td>
+							<td>{{policy.cnt}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -244,7 +251,7 @@
 	  el: '#app',
 	  data: {
 		message:'',
-		policy: {policyCode:'0000003470', comm:['X蘭芳', 'K靜蓉',''], serv:['X蘭芳', 'K靜蓉', '']},
+		policy: {policyCode:'0000003470', comm:['X蘭芳', 'K靜蓉',''], serv:['X蘭芳', 'K靜蓉', ''], cnt:0},
 		tmp_policy:{},
 		trans: {ori:'', comm:'', serv:''},
 		transHistory:[],
@@ -376,6 +383,8 @@
 			
 			this.history.push(newHistory);
 			
+			this.policy.cnt++;
+			
 			this.message = '';
 			$('#myModal').modal('toggle');
 		},
@@ -414,6 +423,8 @@
 			this.transHistory.push({policyCode: this.policy.policyCode, ori:'取消轉手', comm:'', service:''});
 			
 			this.cancelHistory.push(jQuery.extend(true, {}, cancelTarget));
+			
+			this.policy.cnt--;
 		}
 		  
 	  }
