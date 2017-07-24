@@ -50,7 +50,7 @@
 		<div class="container">
 
 			<div class="jumbotron">
-				<h1>保單轉手操作說明V1.0</h1>
+				<h1>保單轉手操作說明V1.1</h1>
 				<p>支援Chrome或IE9.0以上</p>
 				<p>1. 下列操作皆假設為同一天的操作</p>
 				<p>2. 重新整理即可回復預設狀態</p>
@@ -61,13 +61,13 @@
 			<div class="row">
 				<div class="page-header">
 					<h3>現行保單狀態</h3>
-					<p>可直接修改保單狀態預設內容</p>
+					<p>可直接修改保單狀態預設內容，轉手後無法修改保單資訊</p>
 				</div>
 				<table class="table table-bordered table-striped">
 					<tbody>
 						<tr>
-							<th></th>
-							<th>保單號碼</th>
+							<th width="15%"></th>
+							<th width="10%">保單號碼</th>
 							<th>領佣1</th>
 							<th>領佣2</th>
 							<th>領佣3</th>
@@ -78,15 +78,15 @@
 						</tr>
 						<tr>
 							<td>
-							<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#transferPolicy">轉手</button>
-							<button type="button" class="btn btn-primary" @click="cancelTrans">取消轉手</button></td>
+							<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#transferPolicy" :disabled="modififedHistory">轉手</button>
+							<button type="button" class="btn btn-primary" @click="cancelTrans" :disabled="modififedHistory">取消轉手</button></td>
 							<td>{{policy.policyCode}}</td>
-							<td><input v-model="policy.comm[0]" size="10"></td>
-							<td><input v-model="policy.comm[1]" size="10"></td>
-							<td><input v-model="policy.comm[2]" size="10"></td>
-							<td><input v-model="policy.serv[0]" size="10"></td>
-							<td><input v-model="policy.serv[1]" size="10"></td>
-							<td><input v-model="policy.serv[2]" size="10"></td>
+							<td><input v-model="policy.comm[0]" :size="size" v-bind:readonly="modififedPolicyDisable"></td>
+							<td><input v-model="policy.comm[1]" :size="size" v-bind:readonly="modififedPolicyDisable"></td>
+							<td><input v-model="policy.comm[2]" :size="size" v-bind:readonly="modififedPolicyDisable"></td>
+							<td><input v-model="policy.serv[0]" :size="size" v-bind:readonly="modififedPolicyDisable"></td>
+							<td><input v-model="policy.serv[1]" :size="size" v-bind:readonly="modififedPolicyDisable"></td>
+							<td><input v-model="policy.serv[2]" :size="size" v-bind:readonly="modififedPolicyDisable"></td>
 							<td>{{policy.cnt}}</td>
 						</tr>
 					</tbody>
@@ -113,10 +113,9 @@
 								</tr>
 								<tr>
 									<td>{{policy.policyCode}}</td>
-									<td><input type="text" size="10" v-model="trans.ori"
-										required></td>
-									<td><input type="text" size="10" v-model="trans.comm"></td>
-									<td><input type="text" size="10" v-model="trans.serv"></td>
+									<td><input type="text" :size="size" v-model="trans.ori"  required></td>
+									<td><input type="text" :size="size" v-model="trans.comm"></td>
+									<td><input type="text" :size="size" v-model="trans.serv"></td>
 									<td><button type="button" class="btn btn-primary"
 											@click="transPolicy">轉手</button></td>
 								</tr>
@@ -128,7 +127,7 @@
 							<h3>轉手操作紀錄</h3>
 						</div>
 						
-						<table class="table table-bordered table-striped">
+						<table class="table table-bordered table-striped table-condensed">
 							<tbody>
 								<tr>
 									<th width='20%'>保單號碼</th>
@@ -154,8 +153,9 @@
 			<div class="row">
 				<div class="page-header">
 					<h3>保單轉手歷史紀錄</h3>
+					<p>附加修改功能，但只是方便截圖使用，修改後將無法繼續操作</p>
 				</div>
-				<table class="table table-bordered table-striped">
+				<table class="table table-bordered table-striped table-condensed">
 					<tbody>
 						<tr>
 
@@ -178,18 +178,18 @@
 							<td>{{data.policyCode}}</td>
 							<td v-if="data.status == 0">已取消</td>
 							<td v-else></td>
-							<td>{{data.old.comm[0]}}</td>
-							<td>{{data.old.comm[1]}}</td>
-							<td>{{data.old.comm[2]}}</td>
-							<td>{{data.old.serv[0]}}</td>
-							<td>{{data.old.serv[1]}}</td>
-							<td>{{data.old.serv[2]}}</td>
-							<td>{{data.new.comm[0]}}</td>
-							<td>{{data.new.comm[1]}}</td>
-							<td>{{data.new.comm[2]}}</td>
-							<td>{{data.new.serv[0]}}</td>
-							<td>{{data.new.serv[1]}}</td>
-							<td>{{data.new.serv[2]}}</td>
+							<td><input type="text" :size="size" v-model="data.old.comm[0]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.comm[1]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.comm[2]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.serv[0]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.serv[1]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.serv[2]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.comm[0]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.comm[1]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.comm[2]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.serv[0]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.serv[1]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.serv[2]" @change="changeHistory"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -199,8 +199,9 @@
 			<div class="row">
 				<div class="page-header">
 					<h3>保單轉手取消轉手歷史紀錄</h3>
+					<p>附加修改功能，但只是方便截圖使用，修改後將無法繼續操作</p>
 				</div>
-				<table class="table table-bordered table-striped">
+				<table class="table table-bordered table-striped table-condensed">
 					<tbody>
 						<tr>
 							<th>保單號碼</th>
@@ -221,18 +222,18 @@
 						<tr v-for="data in cancelHistory">
 							<td>{{data.policyCode}}</td>
 							<td>已取消</td>
-							<td>{{data.old.comm[0]}}</td>
-							<td>{{data.old.comm[1]}}</td>
-							<td>{{data.old.comm[2]}}</td>
-							<td>{{data.old.serv[0]}}</td>
-							<td>{{data.old.serv[1]}}</td>
-							<td>{{data.old.serv[2]}}</td>
-							<td>{{data.new.comm[0]}}</td>
-							<td>{{data.new.comm[1]}}</td>
-							<td>{{data.new.comm[2]}}</td>
-							<td>{{data.new.serv[0]}}</td>
-							<td>{{data.new.serv[1]}}</td>
-							<td>{{data.new.serv[2]}}</td>
+							<td><input type="text" :size="size" v-model="data.old.comm[0]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.comm[1]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.comm[2]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.serv[0]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.serv[1]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.old.serv[2]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.comm[0]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.comm[1]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.comm[2]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.serv[0]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.serv[1]" @change="changeHistory"></td>
+							<td><input type="text" :size="size" v-model="data.new.serv[2]" @change="changeHistory"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -250,6 +251,9 @@
 	var app = new Vue({
 	  el: '#app',
 	  data: {
+		size:5,  
+	  	modififedPolicyDisable:false, //是否可以修改保單資訊
+		modififedHistory:false,
 		message:'',
 		policy: {policyCode:'0000003470', comm:['X蘭芳', 'K靜蓉',''], serv:['X蘭芳', 'K靜蓉', ''], cnt:0},
 		tmp_policy:{},
@@ -259,6 +263,10 @@
 		cancelHistory:[]
 	  }, 
 	  methods: {
+		  changeHistory : function(event) {
+			  this.modififedHistory = true;
+	  	      event.target.className += " bg-danger";
+		   },
 		transPolicy : function (event) {
 			if (this.trans.ori == '') {
 				this.message = "原業務員不可為空";
@@ -297,6 +305,8 @@
 				}
 			}
 			
+			this.modififedPolicyDisable = true;
+			
 			for (var i = 0 ; i < this.history.length ; i++) {
 				
 				if (this.history[i].status == 0) {
@@ -304,11 +314,11 @@
 				}
 				var element = this.history[i];
 				if (element.old.comm.indexOf(this.trans.ori) >= 0 || element.old.serv.indexOf(this.trans.ori) >= 0) {
-					this.message = this.trans.ori + "今日已轉手";
+					this.message = "原業務員今日已釋出過此保單權限";
 					return false;
 				}
 				if (element.new.comm.indexOf(this.trans.ori) >= 0 || element.new.serv.indexOf(this.trans.ori) >= 0) {
-					this.message = this.trans.ori + "今日已轉手";
+					this.message = this.trans.ori + "同日轉入後不可再次轉出";
 					return false;
 				}
 			}
@@ -372,7 +382,11 @@
 				} 
 			}
 
-			
+			//只增加一次
+			if (this.history.length == 0 || 
+					this.history[0].status == 0) {
+				this.policy.cnt++;
+			}
 			
 			var newHistory = {
 					status:1, 
@@ -382,8 +396,6 @@
 			}
 			
 			this.history.push(newHistory);
-			
-			this.policy.cnt++;
 			
 			this.message = '';
 			$('#myModal').modal('toggle');
@@ -424,7 +436,10 @@
 			
 			this.cancelHistory.push(jQuery.extend(true, {}, cancelTarget));
 			
-			this.policy.cnt--;
+			//只有第一次轉手減少
+			if (this.history[0].status == 1) {
+				this.policy.cnt--;	
+			} 
 		}
 		  
 	  }
