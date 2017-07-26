@@ -30,6 +30,10 @@
 
 <style>
 
+#app {
+	margin-bottom:100px;
+}
+
 .table tbody tr th {
 	background-color: #d9f5ff;
 }
@@ -41,23 +45,60 @@
 .table tbody tr th.pt_new {
 	background-color: #f7d384;
 }
+
+.release-note {
+	padding:5px;
+	background-color:white;
+}
+
+.release-note .note {
+	padding-left:20px;
+}
+
+.jumbotron ol > li {
+	margin-bottom: 5px;
+	font-size: 21px;
+}
+
 </style>
 
 </head>
 
 <body>
+	<div class="container">
+			<div class="row">
+				<div class="jumbotron">
+					<h1>保單轉手操作說明V1.1</h1>
+					<p>支援Chrome或IE9.0以上</p>
+					<ol>
+						<li>下列操作皆假設為同一天的操作</li>
+						<li>重新整理即可回復預設狀態</li>
+						<li>一次的轉手可以視同一次保單受理轉手、保單非受理轉手或是一次上傳</li>
+						<li>比照受理、非受理或上傳不支援三人件，但為了方便理解還是有三個欄位</li>
+						<li>點選轉手即可開啟或關閉轉手操作區塊</li>	
+					</ol>
+					
+					<div class="release-note">
+						<h4 data-toggle="collapse" data-target="#note-list" >
+							<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+							Release Note
+						</h4>
+						<div class="note-list collapse" id="note-list">
+							<div class="note">
+								<p>V1.1：</p>
+								<ol>
+									<li>轉手次數只有當主服務業務員修改時才增加</li>
+									<li>轉手檢核訊息修改</li>
+								</ol>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	<div id="app">
 		<div class="container">
-
-			<div class="jumbotron">
-				<h1>保單轉手操作說明V1.1</h1>
-				<p>支援Chrome或IE9.0以上</p>
-				<p>1. 下列操作皆假設為同一天的操作</p>
-				<p>2. 重新整理即可回復預設狀態</p>
-				<p>3. 一次的轉手可以視同一次保單受理轉手、保單非受理轉手或是一次上傳</p>
-				<p>4. 比照受理、非受理或上傳不支援三人件，但為了方便理解還是有三個欄位</p>
-				<p>5. 點選轉手即可開啟或關閉轉手操作區塊</p>
-			</div>
 			<div class="row">
 				<div class="page-header">
 					<h3>現行保單狀態</h3>
@@ -148,7 +189,9 @@
 					</div>
 				</div>
 			</div>
-
+		</div>
+		
+		<div class="container">
 
 			<div class="row">
 				<div class="page-header">
@@ -158,7 +201,6 @@
 				<table class="table table-bordered table-striped table-condensed">
 					<tbody>
 						<tr>
-
 							<th>保單號碼</th>
 							<th>狀態</th>
 							<th class="pt_old">原領佣1</th>
@@ -195,6 +237,9 @@
 				</table>
 
 			</div>
+
+			</div>
+			<div class="container">
 
 			<div class="row">
 				<div class="page-header">
@@ -362,6 +407,12 @@
 				var idx = this.policy.serv.indexOf(this.trans.ori);
 				
 				if (idx >= 0) {
+					
+					//只針對主服務增加一次
+					if (idx == 0) {
+						this.policy.cnt++;
+					}
+					
 					var mergeIdx = this.policy.serv.indexOf(this.trans.serv);
 					if (mergeIdx >= 0) { //merge
 						old.serv[idx] = this.policy.serv[idx];
@@ -382,12 +433,6 @@
 				} 
 			}
 
-			//只增加一次
-			if (this.history.length == 0 || 
-					this.history[0].status == 0) {
-				this.policy.cnt++;
-			}
-			
 			var newHistory = {
 					status:1, 
 					policyCode : this.policy.policyCode,
@@ -401,8 +446,7 @@
 			$('#myModal').modal('toggle');
 		},
 		cancelTrans : function(event) {
-			if (this.history.length == 0 || 
-					this.history[0].status == 0) {
+			if (this.history.length == 0) {
 				alert('尚未有轉手紀錄');
 				return false;
 			}
@@ -413,6 +457,11 @@
 					cancelTarget = this.history[i];
 					break;
 				}
+			}
+			
+			if (!cancelTarget) {
+				alert('尚未有轉手紀錄');
+				return false;
 			}
 			
 			cancelTarget.status = 0;
@@ -437,8 +486,8 @@
 			this.cancelHistory.push(jQuery.extend(true, {}, cancelTarget));
 			
 			//只有第一次轉手減少
-			if (this.history[0].status == 1) {
-				this.policy.cnt--;	
+			if (cancelTarget.old.serv[0] != '') {
+				this.policy.cnt--;
 			} 
 		}
 		  
