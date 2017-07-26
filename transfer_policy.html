@@ -352,19 +352,26 @@
 			
 			this.modififedPolicyDisable = true;
 			
+			var commIdx = this.trans.comm != '' ? this.policy.comm.indexOf(this.trans.ori) : -1;
+			var servIdx = this.trans.serv != '' ? this.policy.serv.indexOf(this.trans.ori) : -1;
+			
 			for (var i = 0 ; i < this.history.length ; i++) {
-				
 				if (this.history[i].status == 0) {
 					continue;
 				}
 				var element = this.history[i];
-				if (element.old.comm.indexOf(this.trans.ori) >= 0 || element.old.serv.indexOf(this.trans.ori) >= 0) {
-					this.message = "原業務員今日已釋出過此保單權限";
-					return false;
+				
+				if (commIdx >= 0) {
+					if (element.old.comm[commIdx] != '') {
+						this.message = '此欄位今日已轉手';
+						return false;
+					}
 				}
-				if (element.new.comm.indexOf(this.trans.ori) >= 0 || element.new.serv.indexOf(this.trans.ori) >= 0) {
-					this.message = this.trans.ori + "同日轉入後不可再次轉出";
-					return false;
+				if (servIdx >= 0) {
+					if (element.old.serv[servIdx] != '') {
+						this.message = '此欄位今日已轉手';
+						return false;
+					}
 				}
 			}
 			
@@ -381,7 +388,7 @@
 			var new_ = {comm:['', '',''], serv:['', '', '']};
 			
 			if (this.trans.comm != '') {
-				var idx = this.policy.comm.indexOf(this.trans.ori);
+				var idx = commIdx;
 				
 				if (idx >= 0) {
 					var mergeIdx = this.policy.comm.indexOf(this.trans.comm);
@@ -404,7 +411,7 @@
 				}
 			}
 			if (this.trans.serv != '') {
-				var idx = this.policy.serv.indexOf(this.trans.ori);
+				var idx = servIdx;
 				
 				if (idx >= 0) {
 					
