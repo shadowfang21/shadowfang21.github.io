@@ -22,11 +22,18 @@ integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9If
 
 <style>
 body {
-    background-color: rgb(219, 215, 205);
+    background-color: rgb(253, 229, 170);
     font-family: DFKai-sb;
 }
+.thx {
+    background-image: url('./thx.png');
+    background-repeat: no-repeat;
+    min-height: 159px;
+    min-width: 186px;
+    position: absolute;
+}
 .article {
-    font-size: 3rem;
+    font-size: 2rem;
     padding: 30px 10px 0px 10px;
     margin: 30px 10px 0px 10px;
     min-height: 100vh;
@@ -39,18 +46,18 @@ body {
 }
 
 article {
-    width:75%;
+    width:96%;
     margin-right: auto;
     margin-left: auto;
     padding: 5px 23px 20px 0px;
 }
 article p {
-    min-height: 3rem;
+    min-height: 2.3rem;
     padding: 0px 8px 0px 8px;
-    border-bottom: 0.1px solid rgb(202, 202, 202);
+    border-bottom: 0.1px solid rgb(134, 69, 69);
 }
 .line-enter-active {
-    transition: all 1.5s ease;
+    transition: all 1.2s ease;
 }
 .line-enter {
     transform: translateX(100px);
@@ -170,16 +177,43 @@ article p {
                 <article>
                     <p class="d-flex justify-content-start">
                         <transition name=line v-on:after-enter="afterLineShow">
-                            <span v-show="showLine[0]">fdaf</span>
+                            <span v-show="showLine[0]">&nbsp;&nbsp;&nbsp;&nbsp;先對嚇到你道歉，但因為前前後後已經花了太多時間所以我也</span>
                         </transition>
                     </p>
                     <p class="d-flex justify-content-start"> 
                         <transition name=line v-on:after-enter="afterLineShow">
-                            <span v-show="showLine[1]">fdaf</span>
+                            <span v-show="showLine[1]">不知道怎麼樣先通知你才好。現在事後回想都覺得在強迫你收下，</span>
                         </transition>
                     </p>
-                    <p class="d-flex justify-content-end">
-                        順頌時祺
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[2]">希望沒有造成你的困擾。只能說下次要送你東西前會特別先通知。</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[3]">&nbsp;&nbsp;&nbsp;&nbsp;雖然沒有跟你一樣動聽的言語，但這小小的回禮也就是我對於</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[4]">你送的東西的感激與喜悅。收到你的東西我是非常開心的，謝謝！</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[5]">下次提醒我不要講甚麼我要寫作文這種事情，才寫幾行我就破功了……</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[6]">想不出梗就只好開始胡搞瞎搞……</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[7]">會不會害你尷尬病又發作阿XD</span>
+                        </transition>
                     </p>
                 </article>
             </div>
@@ -196,7 +230,7 @@ article p {
         showEnvelope:true,
 		showArticle:false,
         showLine : [],
-        idx : 0
+        idx : 1
 	  }, 
       mounted: function() {
         var that = this;
@@ -214,8 +248,14 @@ article p {
             this.$set(this.showLine, 0, true);
         },
         afterLineShow: function(event) {
-            if (this.idx <= this.showLine.length) {
-                this.$set(this.showLine, ++this.idx, true);
+            if (this.idx < this.showLine.length) {
+                this.$set(this.showLine, this.idx++, true);
+            } else {
+                setTimeout(() => {
+                    setInterval(function() {
+                    $("#app").append(`<div class='thx' style="left:${Math.floor(Math.random() * 714)}px;top:${Math.floor(Math.random() * 830)}px"></div>`);
+                    }, 1000);    
+                }, 10000);
             }
         }
 	  }
