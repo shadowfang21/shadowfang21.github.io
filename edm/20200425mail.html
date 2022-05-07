@@ -1,0 +1,549 @@
+<<<<<<< Updated upstream
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>20200425</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/vue"></script>
+
+<style>
+body {
+    background-color: rgb(253, 229, 170);
+    font-family: DFKai-sb;
+}
+.thx {
+    background-image: url('./thx.png');
+    background-repeat: no-repeat;
+    min-height: 159px;
+    min-width: 186px;
+    position: absolute;
+}
+.article {
+    font-size: 2rem;
+    padding: 30px 10px 0px 10px;
+    margin: 30px 10px 0px 10px;
+    min-height: 100vh;
+    background-color: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-size: cover;
+    background-image: url('./background-sample.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+article {
+    width:96%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 5px 23px 20px 0px;
+}
+article p {
+    min-height: 2.3rem;
+    padding: 0px 8px 0px 8px;
+    border-bottom: 0.1px solid rgb(134, 69, 69);
+}
+.line-enter-active {
+    transition: all 1.2s ease;
+}
+.line-enter {
+    transform: translateX(100px);
+    opacity: 0;
+}
+.fade-enter-active {
+    transition: all 1.5s ease;
+    transition-delay: 1.2s;
+}
+.fade-enter {
+    transform: translateY(40px);
+    opacity: 0;
+}
+.env-leave-active {
+    transition: all 1s;
+    transition-delay: 0.5s;
+}
+.env-leave-to {
+    opacity: 0;
+}
+
+.center {
+  position: fixed; /* or absolute */
+  top: 30%;
+  left: 45%;
+}
+.envelope {
+  position: relative;
+  margin: 50px auto 0;
+  width: 98px;
+  height: 66px;
+  background: #c94548;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 0 1px #c94548 inset;
+}
+.envelope:hover {
+    cursor: pointer;
+}
+.envelope:before,
+.envelope:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0 solid transparent;
+  border-width: 33px 49px;
+}
+.envelope:before {
+  border-bottom-color: #c94548;
+  top: -100%;
+  left: 0px;
+}
+.envelope:after {
+  border-right-color: #ed4c50;
+  border-left-color: #fa565a;
+  border-bottom-color: #fa565a;
+  top: 0;
+  border-radius: 0 0 5px 5px;
+  transform: rotate(360deg);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.25);
+}
+
+.paper {
+  background: #fff;
+  width: 87px;
+  height: 66px;
+  margin: 0 auto;
+  border-radius: 5px;
+  position: absolute;
+  left: 6px;
+  top: -4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.25);
+  transition: top 0.5s;
+}
+.paper:before,
+.paper:after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  background: #e3f1fc;
+  height: 4px;
+  border-radius: 5px;
+}
+.paper:before {
+  top: 14px;
+  width: 31px;
+}
+.paper:after {
+  right: 12px;
+  top: 28px;
+  box-shadow:
+    0 8px 0 #e3f1fc,
+    0 16px 0 #e3f1fc,
+    0 24px 0 #e3f1fc,
+    0 40px 0 #e3f1fc;
+}
+.to-top {
+    top:-34px;
+}
+
+</style>
+
+</head>
+
+<body>
+    <div id="app">
+        <transition name="env" >
+        <div class="center" v-show="showEnvelope">
+            <div class="envelope" @click="openEnvelope">
+                <div class="paper"></div>
+            </div>
+        </div>
+        </transition>
+        <transition name=fade v-on:after-enter="afterEnter">
+            <div class="container" v-show="showArticle">
+            <div class="article box" >
+                <article>
+                    <p class="d-flex justify-content-start">
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[0]">&nbsp;&nbsp;&nbsp;&nbsp;先對嚇到你道歉，但因為前前後後已經花了太多時間所以我也</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[1]">不知道怎麼樣先通知你才好。現在事後回想都覺得在強迫你收下，</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[2]">希望沒有造成你的困擾。只能說下次要送你東西前會特別先通知。</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[3]">&nbsp;&nbsp;&nbsp;&nbsp;雖然沒有跟你一樣動聽的言語，但這小小的回禮也就是我對於</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[4]">你送的東西的感激與喜悅。收到你的東西我是非常開心的，謝謝！</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[5]"></span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[6]">莫名開始亂加東西胡搞瞎搞……</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[7]">應該不會害你尷尬病又發作吧XD</span>
+                        </transition>
+                    </p>
+                </article>
+            </div>
+            </div>
+        </transition>
+	</div>
+</body>
+
+<script>
+
+	var app = new Vue({
+	  el: '#app',
+	  data: {
+        showEnvelope:true,
+		showArticle:false,
+        showLine : [],
+        idx : 1
+	  }, 
+      mounted: function() {
+        var that = this;
+        $("article p").each(element => {
+            that.showLine.push(false);
+        });
+      },
+	  methods: {
+        openEnvelope : function(event) {
+            $(".paper").addClass("to-top")
+            this.showEnvelope = false;
+            this.showArticle = true;
+        },
+        afterEnter : function(event) {
+            this.$set(this.showLine, 0, true);
+        },
+        afterLineShow: function(event) {
+            if (this.idx < this.showLine.length) {
+                this.$set(this.showLine, this.idx++, true);
+            } else {
+                setTimeout(() => {
+                    var x = 0;
+                    var id = setInterval(function() {
+                        $("#app").append(`<div class='thx' style="left:${Math.floor(Math.random() * 714)}px;top:${Math.floor(Math.random() * 830)}px"></div>`);
+
+                        if (x++ == 100) {
+                            clearInterval(id);
+                        }
+
+                    }, 1000);    
+                }, 10000);
+            }
+        }
+	  }
+	  
+	})
+
+	</script>
+</html>
+
+=======
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>20200425</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script src="https://unpkg.com/vue"></script>
+
+<style>
+body {
+    background-color: rgb(253, 229, 170);
+    font-family: DFKai-sb;
+}
+.thx {
+    background-image: url('./thx.png');
+    background-repeat: no-repeat;
+    min-height: 159px;
+    min-width: 186px;
+    position: absolute;
+}
+.article {
+    font-size: 2rem;
+    padding: 30px 10px 0px 10px;
+    margin: 30px 10px 0px 10px;
+    min-height: 100vh;
+    background-color: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    background-size: cover;
+    background-image: url('./background-sample.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+article {
+    width:96%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 5px 23px 20px 0px;
+}
+article p {
+    min-height: 2.3rem;
+    padding: 0px 8px 0px 8px;
+    border-bottom: 0.1px solid rgb(134, 69, 69);
+}
+.line-enter-active {
+    transition: all 1.2s ease;
+}
+.line-enter {
+    transform: translateX(100px);
+    opacity: 0;
+}
+.fade-enter-active {
+    transition: all 1.5s ease;
+    transition-delay: 1.2s;
+}
+.fade-enter {
+    transform: translateY(40px);
+    opacity: 0;
+}
+.env-leave-active {
+    transition: all 1s;
+    transition-delay: 0.5s;
+}
+.env-leave-to {
+    opacity: 0;
+}
+
+.center {
+  position: fixed; /* or absolute */
+  top: 30%;
+  left: 45%;
+}
+.envelope {
+  position: relative;
+  margin: 50px auto 0;
+  width: 98px;
+  height: 66px;
+  background: #c94548;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 0 1px #c94548 inset;
+}
+.envelope:hover {
+    cursor: pointer;
+}
+.envelope:before,
+.envelope:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0 solid transparent;
+  border-width: 33px 49px;
+}
+.envelope:before {
+  border-bottom-color: #c94548;
+  top: -100%;
+  left: 0px;
+}
+.envelope:after {
+  border-right-color: #ed4c50;
+  border-left-color: #fa565a;
+  border-bottom-color: #fa565a;
+  top: 0;
+  border-radius: 0 0 5px 5px;
+  transform: rotate(360deg);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.25);
+}
+
+.paper {
+  background: #fff;
+  width: 87px;
+  height: 66px;
+  margin: 0 auto;
+  border-radius: 5px;
+  position: absolute;
+  left: 6px;
+  top: -4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.25);
+  transition: top 0.5s;
+}
+.paper:before,
+.paper:after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  background: #e3f1fc;
+  height: 4px;
+  border-radius: 5px;
+}
+.paper:before {
+  top: 14px;
+  width: 31px;
+}
+.paper:after {
+  right: 12px;
+  top: 28px;
+  box-shadow:
+    0 8px 0 #e3f1fc,
+    0 16px 0 #e3f1fc,
+    0 24px 0 #e3f1fc,
+    0 40px 0 #e3f1fc;
+}
+.to-top {
+    top:-34px;
+}
+
+</style>
+
+</head>
+
+<body>
+    <div id="app">
+        <transition name="env" >
+        <div class="center" v-show="showEnvelope">
+            <div class="envelope" @click="openEnvelope">
+                <div class="paper"></div>
+            </div>
+        </div>
+        </transition>
+        <transition name=fade v-on:after-enter="afterEnter">
+            <div class="container" v-show="showArticle">
+            <div class="article box" >
+                <article>
+                    <p class="d-flex justify-content-start">
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[0]">&nbsp;&nbsp;&nbsp;&nbsp;先對嚇到你道歉，但因為前前後後已經花了太多時間所以我也</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[1]">不知道怎麼樣先通知你才好。現在事後回想都覺得在強迫你收下，</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[2]">希望沒有造成你的困擾。只能說下次要送你東西前會特別先通知。</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[3]">&nbsp;&nbsp;&nbsp;&nbsp;雖然沒有跟你一樣動聽的言語，但這小小的回禮也就是我對於</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[4]">你送的東西的感激與喜悅。收到你的東西我是非常開心的，謝謝！</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[5]"></span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[6]">莫名開始亂加東西胡搞瞎搞……</span>
+                        </transition>
+                    </p>
+                    <p class="d-flex justify-content-start"> 
+                        <transition name=line v-on:after-enter="afterLineShow">
+                            <span v-show="showLine[7]">應該不會害你尷尬病又發作吧XD</span>
+                        </transition>
+                    </p>
+                </article>
+            </div>
+            </div>
+        </transition>
+	</div>
+</body>
+
+<script>
+
+	var app = new Vue({
+	  el: '#app',
+	  data: {
+        showEnvelope:true,
+		showArticle:false,
+        showLine : [],
+        idx : 1
+	  }, 
+      mounted: function() {
+        var that = this;
+        $("article p").each(element => {
+            that.showLine.push(false);
+        });
+      },
+	  methods: {
+        openEnvelope : function(event) {
+            $(".paper").addClass("to-top")
+            this.showEnvelope = false;
+            this.showArticle = true;
+        },
+        afterEnter : function(event) {
+            this.$set(this.showLine, 0, true);
+        },
+        afterLineShow: function(event) {
+            if (this.idx < this.showLine.length) {
+                this.$set(this.showLine, this.idx++, true);
+            } else {
+                setTimeout(() => {
+                    var x = 0;
+                    var id = setInterval(function() {
+                        $("#app").append(`<div class='thx' style="left:${Math.floor(Math.random() * 714)}px;top:${Math.floor(Math.random() * 830)}px"></div>`);
+
+                        if (x++ == 100) {
+                            clearInterval(id);
+                        }
+
+                    }, 1000);    
+                }, 10000);
+            }
+        }
+	  }
+	  
+	})
+
+	</script>
+</html>
+
+>>>>>>> Stashed changes
