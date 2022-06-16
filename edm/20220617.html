@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>20210617</title>
+<title>20220617</title>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -153,20 +153,29 @@ article {
         </div>
         </transition>
         <transition name=fade v-on:after-enter="afterEnter">
-            <div class="container" v-show="showArticle">
+            <div class="container-fluid" v-show="showArticle">
             <div class="article box">
                 <article>
-                   <div class="container">
+                   <div class="container-fluid">
                        <div class="row">
-                        <div class="col-4">
-                          <img src="20210617/white_better.jpg" class="figure img-responsive"></img>
+                        <div class="col-7">
+                          <img src="20220617/178564.jpg" class="figure img-responsive" v-show="!showLego"></img>
+                          <img src="20220617/Fishing_Copy_3.png" class="figure img-responsive" v-show="showLego"></img>
                         </div>
-                        <div class="col-8">
-                          <img src="20210617/20210617_happyBirthday.PNG" class="figure img-responsive"></img>
+                        <div class="col-5">
+                          <div class="row" id="container">
+                            
+                          </div>
+                          <div class="row">
+                              <input type="text" v-model="iModel" maxlength="4" size="4" class="form-control form-control-lg" placeholder="XXXX" @keyup="inputLego">
+                          </div>
                         </div>
                        </div>
-                       <div id="container"></div>
-                       </div>
+                       
+                      <div class="row pt-5" v-show="showLego">
+                        <img src="20220617/Fishing_Copy_4.png" class="figure img-responsive"></img>
+                        <img src="20220617/1_1x.png" class="figure img-responsive"></img>
+                      </div>
                    </div>
                 </article>
             </div>
@@ -181,7 +190,9 @@ article {
 	  el: '#app',
 	  data: {
         showEnvelope:true,
-		showArticle:false
+		    showArticle:false,
+        showLego:false,
+        iModel:''
       }, 
       mounted: function() {
         var that = this;
@@ -193,13 +204,23 @@ article {
             this.showEnvelope = false;
             this.showArticle = true;
         },
+        inputLego : function(event) {
+          if (!this.showLego && this.iModel != null && this.iModel.toUpperCase() == 'LEGO') {
+            this.showLego = true;
+          }
+        },
         afterEnter : function(event) {
 
             var vara = new Vara(
             "#container",
             "https://rawcdn.githack.com/akzhy/Vara/9d76c6d0c8ff6f9f57bd425a6ff5e8787475e1b0/fonts/Parisienne/Parisienne.json",
             [
-                {text: "2021.06.17 fk", textAlign:"right"}
+                {text: "Love the way you laugh", textAlign:"left"},
+                {text: "Enjoy every moment with you", textAlign:"left"},
+                {text: "Give you my heart", textAlign:"left"},
+                {text: "Only wanna be with you", textAlign:"left"},
+                {text: "Wishing you Happy Birthday", textAlign:"left"},
+                {id:'last', text: "2022.06.17 fk", textAlign:"right"},
             ],
             {
                 strokeWidth: 1.5,
@@ -209,8 +230,8 @@ article {
                 letterSpacing:0
             }
             );
-            vara.ready(function() {
-            
+            vara.animationEnd(function(i,o){
+              
             });
         }
 
