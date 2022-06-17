@@ -170,6 +170,8 @@ article {
                           </div>
                           <div class="row">
                               <input type="text" v-model="iModel" maxlength="4" size="4" class="form-control form-control-lg" placeholder="XXXX" @keyup="inputLego">
+                              <p class="text-warning">只能輸入四個英文(不管大小寫)</p>
+                              <p class="text-danger">{{message}}</p>
                           </div>
                         </div>
                        </div>
@@ -194,7 +196,8 @@ article {
         showEnvelope:true,
 		    showArticle:false,
         showLego:false,
-        iModel:''
+        iModel:'',
+        message:''
       }, 
       mounted: function() {
         var that = this;
@@ -207,8 +210,17 @@ article {
             this.showArticle = true;
         },
         inputLego : function(event) {
-          if (!this.showLego && this.iModel != null && this.iModel.toUpperCase() == 'LEGO') {
-            this.showLego = true;
+          if (!this.showLego) {
+            if (this.iModel == null || this.iModel.length < 4) {
+              this.message = '';
+            } else {
+              if ('LEGO' == this.iModel.toUpperCase()) {
+                this.showLego = true;
+                this.message = "";
+              } else {
+                this.message = '密碼錯誤喔~';
+              }
+            }
           }
         },
         afterEnter : function(event) {
