@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta property="og:image" content="https://shadowfang21.github.io/edm/20230617.html">
+<meta property="image" content="https://shadowfang21.github.io/edm/20230617.html">
+<title>20230617</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+
+<style>
+body {
+    background-color: rgb(253, 229, 170);
+    font-family: DFKai-sb;
+}
+.article {
+    font-size: 2rem;
+    margin: 30px 10px 0px 10px;
+    min-height: 90vh;
+    background-color: black;
+    border-radius : 10px;
+    border: solid 20px black;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+.fade-enter-active {
+    transition: all 1.5s ease;
+    transition-delay: 1.2s;
+}
+.fade-enter {
+    transform: translateY(40px);
+    opacity: 0;
+}
+.env-leave-active {
+    transition: all 1s;
+    transition-delay: 0.5s;
+}
+.env-leave-to {
+    opacity: 0;
+}
+
+.center {
+  position: fixed; /* or absolute */
+  top: 30%;
+  left: 45%;
+}
+.envelope {
+  position: relative;
+  margin: 50px auto 0;
+  width: 98px;
+  height: 66px;
+  background: #c94548;
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0 0 1px #c94548 inset;
+}
+.envelope:hover {
+    cursor: pointer;
+}
+.envelope:before,
+.envelope:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0 solid transparent;
+  border-width: 33px 49px;
+}
+.envelope:before {
+  border-bottom-color: #c94548;
+  top: -100%;
+  left: 0px;
+}
+.envelope:after {
+  border-right-color: #ed4c50;
+  border-left-color: #fa565a;
+  border-bottom-color: #fa565a;
+  top: 0;
+  border-radius: 0 0 5px 5px;
+  transform: rotate(360deg);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.25);
+}
+
+.paper {
+  background: #fff;
+  width: 87px;
+  height: 66px;
+  margin: 0 auto;
+  border-radius: 5px;
+  position: absolute;
+  left: 6px;
+  top: -4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.25);
+  transition: top 0.5s;
+}
+.paper:before,
+.paper:after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  background: #e3f1fc;
+  height: 4px;
+  border-radius: 5px;
+}
+.paper:before {
+  top: 14px;
+  width: 31px;
+}
+.paper:after {
+  right: 12px;
+  top: 28px;
+  box-shadow:
+    0 8px 0 #e3f1fc,
+    0 16px 0 #e3f1fc,
+    0 24px 0 #e3f1fc,
+    0 40px 0 #e3f1fc;
+}
+.to-top {
+    top:-34px;
+}
+#container {
+    padding-top:20px;
+}
+.inside {
+  background-color: #8CABD8;
+  width:100%;
+  border-radius: 10px;
+  padding:2rem;
+}
+.message {
+  background-color: #79E278;
+  border-radius: 10px;
+  padding:1rem;
+  margin:2rem 5rem 1rem 0rem;
+}
+
+@keyframes fdsseq { 
+	100% { opacity: 1; }
+}
+.inside .row {
+  opacity:0;
+	animation: fdsseq 3s forwards;
+}
+.inside .row:nth-child(1) {
+	animation-delay: 1.5s;
+}
+.inside .row:nth-child(2) {
+	animation-delay: 2.5s;
+}
+.inside .row:nth-child(3) {
+	animation-delay: 3.5s;
+}
+.inside .row:nth-child(4) {
+	animation-delay: 4.5s;
+}
+
+</style>
+
+</head>
+
+<body>
+    <div id="app">
+        <transition name="env" >
+        <div class="center" v-show="showEnvelope">
+            <div class="envelope" @click="openEnvelope">
+                <div class="paper"></div>
+            </div>
+        </div>
+        </transition>
+        <transition name=fade v-on:after-enter="afterEnter">
+            <div class="container" v-show="showArticle">
+            <div class="article box">
+              <div class="inside">
+                <div class="row justify-content-end"><div class="message">宛甄生日快樂!!</div></div>
+                <div class="row justify-content-end"><div class="message">本來有幾個生日edm的方案</div></div>
+                <div class="row justify-content-end"><div class="message">像是搭配AI去產生一些東西阿、配合時事嘛~</div></div>
+                <div class="row justify-content-end"><div class="message">結果弄到後來都沒有想像中容易，看來AI要讓任何人都會還有一段路要走</div></div>
+                <div class="row justify-content-end"><div class="message">最後決定就用留言訊息表示了~~~</div></div>
+                <div class="row justify-content-end"><div class="message">今年真的是兩個人都弄得累得不知道在累些甚麼東西</div></div>
+                <div class="row justify-content-end"><div class="message">不知道</div></div>
+                <div class="row justify-content-end"><div class="message"></div></div>
+                <div class="row justify-content-end"><div class="message"></div></div>
+                <div class="row justify-content-end"><div class="message"></div></div>
+                <div class="row justify-content-end"><div class="message"></div></div>
+                <div class="row justify-content-end"><div class="message"></div></div>
+                <div class="row justify-content-end"><div class="message"></div></div>
+              </div>
+            </div>
+            </div>
+        </transition>
+	</div>
+</body>
+
+<script>
+
+	var app = new Vue({
+	  el: '#app',
+	  data: {
+        showEnvelope:true,
+		    showArticle:false,
+        showLego:false,
+        iModel:'',
+        message:''
+      }, 
+      mounted: function() {
+        var that = this;
+        
+      },
+	  methods: {
+        openEnvelope : function(event) {
+            $(".paper").addClass("to-top")
+            this.showEnvelope = false;
+            this.showArticle = true;
+        },
+        afterEnter : function(event) {
+
+        }
+
+	  }
+	  
+	})
+
+	</script>
+</html>
