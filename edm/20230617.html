@@ -17,9 +17,7 @@
 integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
 <style>
@@ -147,25 +145,58 @@ body {
   padding:1rem;
   margin:2rem 5rem 1rem 0rem;
 }
-
+.response {
+  background-color: white;
+  margin-left: 1rem;
+}
 @keyframes fdsseq { 
 	100% { opacity: 1; }
 }
 .inside .row {
   opacity:0;
-	animation: fdsseq 3s forwards;
+	animation-name: fdsseq;
+  animation-fill-mode: forwards;
+  animation-duration: 3s;
+  animation-timing-function: step-start;
 }
 .inside .row:nth-child(1) {
-	animation-delay: 1.5s;
+	animation-delay: 2s;
 }
 .inside .row:nth-child(2) {
-	animation-delay: 2.5s;
+	animation-delay: 4s;
 }
 .inside .row:nth-child(3) {
-	animation-delay: 3.5s;
+	animation-delay: 6s;
 }
 .inside .row:nth-child(4) {
-	animation-delay: 4.5s;
+	animation-delay: 8s;
+}
+.inside .row:nth-child(5) {
+	animation-delay: 10s;
+}
+.inside .row:nth-child(6) {
+	animation-delay: 12s;
+}
+.inside .row:nth-child(7) {
+	animation-delay: 14s;
+}
+.inside .row:nth-child(8) {
+	animation-delay: 16s;
+}
+.inside .row:nth-child(9) {
+	animation-delay: 18s;
+}
+.inside .row:nth-child(10) {
+	animation-delay: 20s;
+}
+.inside .row:nth-child(11) {
+	animation-delay: 22s;
+}
+.inside .row:nth-child(12) {
+	animation-delay: 24s;
+}
+.inside .row:nth-child(14) {
+	animation-delay: 26s;
 }
 
 </style>
@@ -190,14 +221,14 @@ body {
                 <div class="row justify-content-end"><div class="message">像是搭配AI去產生一些東西阿、配合時事嘛~</div></div>
                 <div class="row justify-content-end"><div class="message">結果弄到後來都沒有想像中容易，看來AI要讓任何人都會還有一段路要走</div></div>
                 <div class="row justify-content-end"><div class="message">最後決定就用留言訊息表示了~~~</div></div>
-                <div class="row justify-content-end"><div class="message">今年真的是兩個人都弄得累得不知道在累些甚麼東西</div></div>
-                <div class="row justify-content-end"><div class="message">不知道</div></div>
-                <div class="row justify-content-end"><div class="message"></div></div>
-                <div class="row justify-content-end"><div class="message"></div></div>
-                <div class="row justify-content-end"><div class="message"></div></div>
-                <div class="row justify-content-end"><div class="message"></div></div>
-                <div class="row justify-content-end"><div class="message"></div></div>
-                <div class="row justify-content-end"><div class="message"></div></div>
+                <div class="row justify-content-end"><div class="message">雖然今年真的是兩個人都弄得累到不知道在累些甚麼東西</div></div>
+                <div class="row justify-content-end"><div class="message">但是宛甄才是占據我最多思緒的存在</div></div>
+                <div class="row justify-content-end"><div class="message">與宛甄見面的期待以及過程中的喜悅是我最珍貴的回憶</div></div>
+                <div class="row justify-content-end"><div class="message">這樣寫好像很呆</div></div>
+                <div class="row justify-content-end"><div class="message">但真的想要知道，我有甚麼能夠為你分擔的嗎？</div></div>
+                <div class="row justify-content-end"><div class="message">你的快樂才是我的幸福</div></div>
+                <div class="row justify-content-end"><div class="message">Happ Birthday!!</div></div>
+                <div class="row"><div class="message response">喔~~ 是喔</div></div>
               </div>
             </div>
             </div>
